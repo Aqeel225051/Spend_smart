@@ -79,7 +79,20 @@ app.use('/api/budgets', budgetRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/users', userRoutes);
 
-// 404 Not Found Handler
+const path = require('path');
+const fs = require('fs');
+
+// Serve Frontend static assets in production if built
+const clientDistPath = path.resolve(__dirname, '../../client/dist');
+if (process.env.NODE_ENV === 'production' && fs.existsSync(clientDistPath)) {
+  app.use(express.static(clientDistPath));
+  app.get('*', (req, res, next) => {
+    if (req.originalUrl.startsWith('/api')) return next();
+    res.sendFile(path.join(clientDistPath, 'index.html'));
+  });
+}
+
+// 404 Not Found Handler for unknown API routes
 app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
