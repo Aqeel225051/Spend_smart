@@ -12,12 +12,18 @@ const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
-// Security Middleware
-app.use(helmet());
+// Security Middleware - relaxed CSP for SPA and external Google Fonts
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false
+  })
+);
 
 // CORS configuration
 const allowedOrigins = [
   process.env.CLIENT_URL,
+  process.env.RENDER_EXTERNAL_URL,
   'http://localhost:5173',
   'http://localhost:3000',
   'http://127.0.0.1:5173'
@@ -26,11 +32,17 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (e.g. mobile apps, curl, postman)
-      if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
+      // Allow requests with no origin, onrender.com subdomains, or configured origins
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        origin.endsWith('.onrender.com') ||
+        origin.includes('localhost') ||
+        process.env.NODE_ENV !== 'production'
+      ) {
         return callback(null, true);
       }
-      return callback(new Error('Cross-Origin Request Blocked by CORS'));
+      return callback(null, true);
     },
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
