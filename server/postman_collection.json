@@ -1,0 +1,210 @@
+{
+  "info": {
+    "name": "SpendSmart API - ICTAK MERN Project",
+    "description": "Complete API test collection for SpendSmart Student Expense Tracker backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "health"]
+        }
+      }
+    },
+    {
+      "name": "Auth - Register",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Student Demo\",\n  \"email\": \"student@ictak.edu\",\n  \"password\": \"student123\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/register",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "register"]
+        }
+      }
+    },
+    {
+      "name": "Auth - Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"student@ictak.edu\",\n  \"password\": \"student123\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "login"]
+        }
+      }
+    },
+    {
+      "name": "Auth - Get Current User (Me)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/me",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "auth", "me"]
+        }
+      }
+    },
+    {
+      "name": "Expenses - Create Expense",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{authToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 350.50,\n  \"category\": \"Food\",\n  \"description\": \"Canteen lunch & juices with friends\",\n  \"date\": \"2026-10-24\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/expenses",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "expenses"]
+        }
+      }
+    },
+    {
+      "name": "Expenses - Get All with Filters",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+        "url": {
+          "raw": "{{baseUrl}}/api/expenses?page=1&limit=10&sortBy=date&order=desc",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "expenses"],
+          "query": [
+            { "key": "page", "value": "1" },
+            { "key": "limit", "value": "10" },
+            { "key": "sortBy", "value": "date" },
+            { "key": "order", "value": "desc" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Expenses - Export CSV",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+        "url": {
+          "raw": "{{baseUrl}}/api/expenses/export/csv",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "expenses", "export", "csv"]
+        }
+      }
+    },
+    {
+      "name": "Budgets - Set Monthly Budget",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{authToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"month\": 10,\n  \"year\": 2026,\n  \"amount\": 7500\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/budgets",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "budgets"]
+        }
+      }
+    },
+    {
+      "name": "Budgets - Get Current Month Status",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+        "url": {
+          "raw": "{{baseUrl}}/api/budgets/current",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "budgets", "current"]
+        }
+      }
+    },
+    {
+      "name": "Analytics - Dashboard Summary",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+        "url": {
+          "raw": "{{baseUrl}}/api/analytics/summary",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "analytics", "summary"]
+        }
+      }
+    },
+    {
+      "name": "Analytics - Category Breakdown",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+        "url": {
+          "raw": "{{baseUrl}}/api/analytics/categories",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "analytics", "categories"]
+        }
+      }
+    },
+    {
+      "name": "Analytics - Monthly Trends & Comparison",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+        "url": {
+          "raw": "{{baseUrl}}/api/analytics/monthly",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "analytics", "monthly"]
+        }
+      }
+    },
+    {
+      "name": "User - Update Profile Name",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{authToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Aditya Kumar (Updated)\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/users/me",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "users", "me"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "authToken",
+      "value": ""
+    }
+  ]
+}

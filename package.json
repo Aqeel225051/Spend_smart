@@ -1,0 +1,26 @@
+{
+  "name": "spend-smart",
+  "version": "1.0.0",
+  "description": "SpendSmart - Student Expense Tracker (MERN Stack)",
+  "private": true,
+  "scripts": {
+    "install:server": "npm --prefix server install",
+    "install:client": "npm --prefix client install",
+    "install:all": "npm install && npm run install:server && npm run install:client",
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "seed": "npm --prefix server run seed",
+    "test:server": "npm --prefix server test",
+    "build:client": "npm --prefix client run build"
+  },
+  "keywords": [
+    "mern",
+    "expense-tracker",
+    "student-budget",
+    "react",
+    "express",
+    "mongodb"
+  ],
+  "author": "ICTAK Student Intern",
+  "license": "MIT"
+}
