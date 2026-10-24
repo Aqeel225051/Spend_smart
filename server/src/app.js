@@ -47,13 +47,29 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 
+const mongoose = require('mongoose');
+
 // Health Check API
 app.get('/api/health', (req, res) => {
+  const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
   res.status(200).json({
     status: 'ok',
     message: 'SpendSmart API service is running normally',
+    database: dbStatus,
     timestamp: new Date().toISOString()
   });
+});
+
+// Middleware to notify gracefully if database is offline (in non-test environments)
+app.use('/api', (req, res, next) => {
+  if (req.path === '/health') return next();
+  if (process.env.NODE_ENV !== 'test' && mongoose.connection.readyState !== 1) {
+    return res.status(503).json({
+      success: false,
+      message: 'Database is currently offline. Please ensure MongoDB is running or configure your MONGODB_URI in server/.env.'
+    });
+  }
+  next();
 });
 
 // Mount API routes

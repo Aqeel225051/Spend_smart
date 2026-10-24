@@ -1,17 +1,20 @@
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
+  const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/spend-smart';
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/spend-smart');
-    console.log(`[Database] MongoDB Connected: ${conn.connection.host}`);
+    const conn = await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 4000
+    });
+    console.log(`[Database] MongoDB Connected successfully: ${conn.connection.host}`);
     return conn;
   } catch (error) {
-    console.error(`[Database Error] ${error.message}`);
-    // If not in test, exit process with failure
-    if (process.env.NODE_ENV !== 'test') {
-      process.exit(1);
+    console.warn(`[Database Warning] Could not connect to MongoDB (${error.message}).`);
+    console.warn(`[Database Notice] Please verify your MongoDB service is running or provide a valid MONGODB_URI in server/.env.`);
+    if (process.env.NODE_ENV === 'test') {
+      throw error;
     }
-    throw error;
+    return null;
   }
 };
 
